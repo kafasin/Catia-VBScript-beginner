@@ -1,0 +1,58 @@
+Set document = CATIA.ActiveDocument
+Set selection1 = CATIA.ActiveDocument.Selection
+selection1.Search "(CATAsmSearch.Part+(CATAsmSearch.Product)),all"
+
+For n = 1 To selection1.Count
+    Set Element = selection1.Item(n).Value
+    Element.ApplyWorkMode DESIGN_MODE
+Next
+selection1.Clear
+
+Set oMainProduct = CATIA.ActiveDocument.Product
+Set oMainProducts = oMainProduct.Products
+
+rename_InstanceName oMainProducts
+
+MsgBox "   DONE!"
+
+End Sub
+
+
+Public Function rename_InstanceName(oProducts)
+
+For X = 1 To oProducts.Count
+
+  Set oInstance = oProducts.Item(X)
+  oNumber = oInstance.PartNumber
+  oname = oInstance.Name
+
+  i = 0
+  Do
+
+  On Error Resume Next
+
+  i = i + 1
+
+  If i > 5000 Then
+    Exit Do
+  End If
+
+  oInstance.Name = oNumber & "." & i
+
+  If Err.Number = 0 Then
+    rename_InstanceName oProducts.Item(X).ReferenceProduct.Products
+    Exit Do
+  ElseIf Err.Number = -2147467259 Then
+    Err.Clear
+    Err.Number = 0
+  Else
+    Exit Do
+  End If
+  Loop
+  If oInstance.Products.Count > 0 Then
+    rename_InstanceName oInstance.Products
+  End If
+Next
+
+End Function
+
