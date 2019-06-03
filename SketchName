@@ -1,0 +1,17 @@
+Sub CATMain()
+
+CATIA.StartCommand ("No 3D Background")
+
+CATIA.StartCommand ("Fit All In")
+
+Set oSel = CATIA.ActiveDocument.Selection
+
+oSel.Search ("Sketcher.Origin,scr")
+
+Set oSketch = oSel.Item(1).Value.Parent.Parent.Parent
+
+oSel.Clear
+
+MsgBox ("the sketch is " & oSketch.Name)
+
+End Sub 
