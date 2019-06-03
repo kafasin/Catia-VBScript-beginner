@@ -1,0 +1,44 @@
+Language="VBSCRIPT"
+
+Sub CATMain()
+
+Dim productDocument1 As Document
+Set productDocument1 = CATIA.ActiveDocument
+
+Dim product1 As Product
+Set product1 = productDocument1.Product
+
+Dim assemblyConvertor1 As CATBaseDispatch
+Set assemblyConvertor1 = product1.GetItem("BillOfMaterial")
+
+Dim arrayOfVariantOfBSTR1(10)
+arrayOfVariantOfBSTR1(0) = "Quantity"
+arrayOfVariantOfBSTR1(1) = "Pos.No."
+arrayOfVariantOfBSTR1(2) = "Part Number"
+arrayOfVariantOfBSTR1(3) = "Product Description"
+arrayOfVariantOfBSTR1(4) = "Revision"
+arrayOfVariantOfBSTR1(5) = "Source"
+arrayOfVariantOfBSTR1(6) = "Firma/Hersteller"
+arrayOfVariantOfBSTR1(7) = "Bestellnummer"
+arrayOfVariantOfBSTR1(8) = "Halbzeug"
+arrayOfVariantOfBSTR1(9) = "Laenge"
+arrayOfVariantOfBSTR1(10) = "Material"
+assemblyConvertor1.SetCurrentFormat arrayOfVariantOfBSTR1
+
+Dim arrayOfVariantOfBSTR2(10)
+arrayOfVariantOfBSTR2(0) = "Quantity"
+arrayOfVariantOfBSTR2(1) = "Pos.No."
+arrayOfVariantOfBSTR2(2) = "Part Number"
+arrayOfVariantOfBSTR2(3) = "Product Description"
+arrayOfVariantOfBSTR2(4) = "Revision"
+arrayOfVariantOfBSTR2(5) = "Source"
+arrayOfVariantOfBSTR2(6) = "Firma/Hersteller"
+arrayOfVariantOfBSTR2(7) = "Bestellnummer"
+arrayOfVariantOfBSTR2(8) = "Halbzeug"
+arrayOfVariantOfBSTR2(9) = "Laenge"
+arrayOfVariantOfBSTR2(10) = "Material"
+assemblyConvertor1.SetSecondaryFormat arrayOfVariantOfBSTR2
+
+MsgBox "    DONE!"
+
+End Sub
