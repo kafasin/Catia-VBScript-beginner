@@ -1,0 +1,21 @@
+Sub CATMain()
+
+Dim documents1 As Documents
+Dim partDocument1 As PartDocument
+
+Set documents1 = CATIA.Documents
+Set partDocument1 = CATIA.ActiveDocument
+
+Dim BodyToRename As Body
+Set BodyToRename = partDocument1.part.Bodies.Item(1)
+BodyToRename.name = "PartBody"
+
+partDocument1.part.Update
+
+Set BodyToRename = partDocument1.part.Bodies.Item(2)
+BodyToRename.name = "NEW NAME"
+
+partDocument1.part.Update
+
+
+End Sub
