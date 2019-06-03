@@ -1,0 +1,6 @@
+Sub CATMain()
+
+set oShell = CreateObject("Wscript.shell")
+oShell.Run "C:\WINDOWS\system32\calc.exe", 1, true  ' true = wait till the end.
+
+End Sub
