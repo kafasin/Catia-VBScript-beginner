@@ -1,0 +1,19 @@
+Language="VBSCRIPT"
+
+Sub CATMain()
+
+Dim partDocument1 As Document
+Set partDocument1 = CATIA.ActiveDocument
+
+Dim part1 As Part
+Set part1 = partDocument1.Part
+
+Dim parameters1 As Parameters
+Set parameters1 = part1.Parameters
+
+Dim strParam1 As Parameter
+Set strParam1 = parameters1.Item("Part Number")
+
+strParam1.Value = "ddklkd"
+
+End Sub
