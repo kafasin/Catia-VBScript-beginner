@@ -1,0 +1,47 @@
+Sub CATMain()
+
+    Dim oMainPRD As ProductDocument
+    Dim oPRD As Product
+    Dim oSel As Selection
+   
+    Set oMainPRD = CATIA.ActiveDocument
+    Set oPRD = oMainPRD.Product
+    Set oSel = oMainPRD.Selection
+    oSel.Clear
+    Call Mark_DefConst(oPRD, oSel)
+   
+    If oSel.Count > 0 Then
+        RetCode = MsgBox(oSel.Count & " defekte Bedingungen gefunden. Sollen diese gelöscht werden?", vbYesNo)
+        If RetCode = vbYes Then
+            oSel.Delete
+        End If
+	Else
+		MsgBox "Keine defekte Bedingungen gefunden!"
+    End If
+   
+End Sub
+
+Sub Mark_DefConst(ByVal oPRD As Product, ByRef oSel As Selection)
+
+    Dim oConsts As Constraints
+    Dim oConst As Constraint
+    Dim oSubPRD As Product
+    Dim strName As String
+       
+    Set oConsts = oPRD.Connections("CATIAConstraints")
+
+    If oConsts.Count > 0 Then
+        For Each oConst In oConsts
+            If oConst.Status <> catCstStatusOK Then
+                oSel.Add oConst
+            End If
+        Next
+    End If
+   
+    For Each oSubPRD In oPRD.Products
+        If oSubPRD.Products.Count <> 0 Then 
+		       Call Mark_DefConst(oSubPRD.ReferenceProduct, oSel)
+	   End If
+    Next
+   
+End Sub
