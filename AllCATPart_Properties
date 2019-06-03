@@ -1,0 +1,70 @@
+Language="VBSCRIPT"
+
+Sub CATMain()
+
+Dim partDocument1 As Document
+Set partDocument1 = CATIA.ActiveDocument
+
+Dim product1 As CATBaseDispatch
+Set product1 = partDocument1.GetItem("PART5")
+
+product1.Revision = "XXX"
+
+product1.Source = catProductMade
+
+Dim v, a, b, c, d As String
+
+v = product1.Name
+a = Replace(v, "AllCATPart", "00X")
+b = Split(a, "_")
+If b(0) = "" Then
+c = b(1)
+Else
+c = b(0)
+End If
+
+Dim para As Parameters
+Set para = product1.Parameters
+
+Dim strParam3 As Parameter
+Set strParam3 = para.Item("Part Number")
+
+strParam3.Value = a
+
+Dim parameters1 As Parameters
+Set parameters1 = product1.UserRefProperties
+On Error Resume Next
+parameters1.Remove "Pos.No."
+
+Dim parameters2 As Parameters
+Set parameters2 = product1.UserRefProperties
+On Error Resume Next
+parameters2.Remove "Firma/Hersteller"
+
+Dim parameters3 As Parameters
+Set parameters3 = product1.UserRefProperties
+
+Dim strParam1 As StrParam
+Set strParam1 = parameters3.CreateString("Pos.No.", "")
+
+strParam1.Value=c
+
+Dim parameters4 As Parameters
+Set parameters4 = product1.UserRefProperties
+
+Dim strParam2 As StrParam
+Set strParam2 = parameters4.CreateString("Firma/Hersteller", "")
+
+strParam2.ValuateFromString "Hanon Systems Standard"
+
+Set product1 = product1.ReferenceProduct
+
+Set product1 = product1.ReferenceProduct
+
+Set product1 = product1.ReferenceProduct
+
+Set product1 = product1.ReferenceProduct
+
+MsgBox "    DONE, Please Check The Properties!"
+
+End Sub
